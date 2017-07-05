@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+</head>
+<body>
+
+<style>
+    .calculation-box {
+        height: 140px;
+        width: 150px;
+        position: absolute;
+        top: 210px;
+        left: 10px;
+        background-color: rgba(255, 255, 255, .9);
+        padding: 15px;
+        text-align: center;
+    }
+
+    #calculate {
+        min-height: 20px;
+        background-color: #3887be;
+        color: #fff;
+        font-family: 'Open Sans';
+        border-radius: 5px;
+        padding: 10px;
+        cursor: pointer;
+        margin: 10px 0;
+    }
+
+    p {
+        font-family: 'Open Sans';
+        margin: 0;
+        font-size: 13px;
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js'></script>
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v0.19.0/mapbox-gl-draw.js'></script>
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
+<script src="carto.js"></script>
+<script src="layerConfig.js"></script>
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v0.19.0/mapbox-gl-draw.css' type='text/css'/>
+<div id='map'></div>
+<div class='calculation-box'>
+    <p>Draw a polygon using the draw tools.</p>
+    <div id='calculate' class='button button'>Calculate area</div>
+    <div id='calculated-area'></div>
+</div>
+
+<script>
+const selectedLots = {
+  type: 'FeatureCollection',
+  features: []
+};
+
+let map;
+
+const updateSelectedLotsLayer = () => {
+  // update the selected lots layer to reflect the current array of selected lots
+  const bblFilters = ["any"];
+  selectedLots.forEach((bbl) => {
+    bblFilters.push(["==", "bbl", bbl])
+  });
+
+  map.setFilter('selected-lots', bblFilters);
+}
+
+const updateSelectedLots = (features) => {
+  console.log(features);
+
+  features.forEach((feature) => {
+    const { type, geometry, properties } = feature;
+
+    selectedLots.features.push({
+      type,
+      geometry,
+      properties
+    })
+  })
+
+  console.log(selectedLots);
+  map.getSource('selectedLots').setData(selectedLots);
+
+  // features.forEach((feature) => {
+  //   //check if this feature is already in the array of selectedLots, if not, add it
+  //   if (selectedLots.indexOf(feature.properties.bbl) === -1) selectedLots.push(feature.properties.bbl);
+  // });
+  // updateSelectedLotsLayer();
+}
+
+
+mapboxgl.accessToken = 'pk.eyJ1IjoiY3dob25nbnljIiwiYSI6ImNpczF1MXdrdjA4MXcycXA4ZGtyN2x5YXIifQ.3HGyME8tBs6BnljzUVIt4Q';
+/* eslint-disable */
+map = new mapboxgl.Map({
+    container: 'map', // container id
+    style: 'mapbox://styles/mapbox/light-v9', //hosted style id
+    center: [-73.98, 40.750768], // starting position
+    zoom: 16 // starting zoom
+});
+
+map.on('load', function () {
+
+  var mapConfig = {
+    version: '1.3.0',
+    layers: [{
+      type: 'mapnik',
+      options: {
+        cartocss_version: '2.1.1',
+        cartocss: '#layer { polygon-fill: #FFF; }',
+        sql: 'SELECT cartodb_id, the_geom_webmercator, bbl, lot FROM support_mappluto',
+      },
+    }],
+  }
+
+  Carto.getVectorTileTemplate(mapConfig, {
+    carto_domain: 'cartoprod.capitalplanning.nyc',
+    carto_user: 'cpp',
+  }).then((tileTemplate) => {
+    map.addSource('pluto', {
+      type: 'vector',
+      tiles: [tileTemplate],
+    });
+
+    map.addSource('selectedLots', {
+       type: 'geojson',
+       data: selectedLots
+     });
+
+    map.addLayer(layerConfig.pluto, 'waterway');
+    map.addLayer(layerConfig.plutoLabels);
+    map.addLayer(layerConfig.selectedLots);
+
+
+    map.on('click', (e) => {
+      const features = map.queryRenderedFeatures(e.point, { layers: ['pluto'] });
+      const uniqueFeatures = _.uniq(features, feature => feature.properties.bbl);
+      if(uniqueFeatures.length > 0) updateSelectedLots(uniqueFeatures);
+    });
+
+  });
+});
+
+var draw = new MapboxDraw({
+    displayControlsDefault: false,
+    controls: {
+        polygon: true,
+        trash: true
+    }
+});
+map.addControl(draw);
+
+
+</script>
+
+</body>
+</html>
