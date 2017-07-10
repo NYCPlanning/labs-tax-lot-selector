@@ -1,0 +1,12 @@
+{
+  "extends": "airbnb-base",
+  "globals": {
+    "$": true,
+    "_": true,
+    "mapboxgl": true,
+  },
+  "rules": {
+    "func-names": 0,
+    "vars-on-top": 0,
+  }
+}
