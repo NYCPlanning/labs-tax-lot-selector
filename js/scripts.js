@@ -19,6 +19,17 @@ const selectedLots = {
   features: [],
 };
 
+const setCount = (selectedLots) => {
+  const count = selectedLots.features.length;
+  $('#selected-count').text(count.toString());
+
+  if (count > 0) {
+    $('#csv-download-button').removeClass('disabled');
+  } else {
+    $('#csv-download-button').addClass('disabled');
+  }
+}
+
 const updateSelectedLots = (features) => {
   features.forEach((feature) => {
     const { type, geometry, properties } = feature;
@@ -37,7 +48,11 @@ const updateSelectedLots = (features) => {
     }
   });
 
+  // update the underlying data for the selection layer
   map.getSource('selectedLots').setData(selectedLots);
+
+  // update the count
+  setCount(selectedLots);
 };
 
 const getLotsInPolygon = (polygon) => {
@@ -54,9 +69,28 @@ const getLotsInPolygon = (polygon) => {
   `;
 
   Carto.sql(SQL, cartoOptions)
-    .then((d) => { updateSelectedLots(d.features); })
+    .then((d) => { updateSelectedLots(d.features); });
 
   console.log(SQL);
+}
+
+downloadCSV = () => {
+  // get an array of bbls to use in a query
+  const selectedLotsArray = selectedLots.features.map(lot => lot.properties.bbl);
+  const selectedLotsString = selectedLotsArray.join(',');
+  console.log(selectedLotsString);
+
+  const SQL = `
+    SELECT borocode, block, lot, bbl, address
+    FROM support_mappluto
+    WHERE bbl IN (${selectedLotsString})
+  `;
+
+  const apiCall = `https://${cartoOptions.carto_domain}/user/${cartoOptions.carto_user}/api/v2/sql?q=${SQL}&format=csv&filename=selected_lots`;
+  console.log(apiCall)
+
+  window.open(apiCall, 'Download');
+
 }
 
 map.on('load', function () {
@@ -112,8 +146,13 @@ const draw = new MapboxDraw({
         trash: true
     }
 });
+
 map.addControl(draw);
 
 map.on('draw.create', (d) => {
+  // remove the polygon, then pass its geometry on
+  draw.deleteAll();
   getLotsInPolygon(d.features[0].geometry);
 });
+
+$('#csv-download-button').on('click', downloadCSV)

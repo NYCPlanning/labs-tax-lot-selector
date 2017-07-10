@@ -1,5 +1,22 @@
 body { margin:0; padding:0; }
-#map { position:absolute; top:0; bottom:0; width:100%; }
+
+#map {
+  position:absolute;
+  top:50px;
+  bottom:0;
+  left: 320px;
+  right: 0;
+}
+
+#sidebar {
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  left: 0;
+  width: 320px;
+  box-shadow: 0 3px 10px rgba(0,0,0,.156863), 0 3px 10px rgba(0,0,0,.227451);
+  z-index: 1;
+}
 
 .calculation-box {
     height: 140px;

@@ -26,7 +26,7 @@ const Carto = { // eslint-disable-line
     return new Promise((resolve, reject) => {
       $.ajax({ // eslint-disable-line no-undef
         type: 'GET',
-        url: `https://${options.carto_domain}/user/${options.carto_user}/api/v2/sql?q=${query}&format=geojson`,
+        url: `https://${options.carto_domain}/user/${options.carto_user}/api/v2/sql?q=${query}&format=${options.format || 'geojson'}`,
         success(d) {
           resolve(d);
         },
