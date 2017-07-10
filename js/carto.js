@@ -21,4 +21,17 @@ const Carto = { // eslint-disable-line
       .fail(() => reject());
     });
   },
+
+  sql(query, options) {
+    return new Promise((resolve, reject) => {
+      $.ajax({ // eslint-disable-line no-undef
+        type: 'GET',
+        url: `https://${options.carto_domain}/user/${options.carto_user}/api/v2/sql?q=${query}&format=geojson`,
+        success(d) {
+          resolve(d);
+        },
+      })
+      .fail(() => reject());
+    });
+  },
 };

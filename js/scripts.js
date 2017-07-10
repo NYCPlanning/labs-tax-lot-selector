@@ -1,3 +1,8 @@
+const cartoOptions = {
+  carto_domain: 'cartoprod.capitalplanning.nyc',
+  carto_user: 'cpp',
+};
+
 mapboxgl.accessToken = 'pk.eyJ1IjoiY3dob25nbnljIiwiYSI6ImNpczF1MXdrdjA4MXcycXA4ZGtyN2x5YXIifQ.3HGyME8tBs6BnljzUVIt4Q';
 /* eslint-disable */
 const map = new mapboxgl.Map({
@@ -6,6 +11,8 @@ const map = new mapboxgl.Map({
     center: [-73.98, 40.750768], // starting position
     zoom: 16 // starting zoom
 });
+
+map.addControl(new mapboxgl.NavigationControl());
 
 const selectedLots = {
   type: 'FeatureCollection',
@@ -33,9 +40,28 @@ const updateSelectedLots = (features) => {
   map.getSource('selectedLots').setData(selectedLots);
 };
 
+const getLotsInPolygon = (polygon) => {
+  const SQL = `
+    SELECT *
+    FROM support_mappluto
+    WHERE ST_Intersects(
+			ST_SetSRID(
+        ST_geomFromGeojson('${JSON.stringify(polygon)}'),
+        4326
+      ),
+			the_geom
+    )
+  `;
+
+  Carto.sql(SQL, cartoOptions)
+    .then((d) => { updateSelectedLots(d.features); })
+
+  console.log(SQL);
+}
+
 map.on('load', function () {
 
-  var mapConfig = {
+  const mapConfig = {
     version: '1.3.0',
     layers: [{
       type: 'mapnik',
@@ -47,10 +73,7 @@ map.on('load', function () {
     }],
   }
 
-  Carto.getVectorTileTemplate(mapConfig, {
-    carto_domain: 'cartoprod.capitalplanning.nyc',
-    carto_user: 'cpp',
-  }).then((tileTemplate) => {
+  Carto.getVectorTileTemplate(mapConfig, cartoOptions).then((tileTemplate) => {
     map.addSource('pluto', {
       type: 'vector',
       tiles: [tileTemplate],
@@ -81,11 +104,16 @@ map.on('load', function () {
   });
 });
 
-var draw = new MapboxDraw({
+const draw = new MapboxDraw({
     displayControlsDefault: false,
     controls: {
+        rectangle: true,
         polygon: true,
         trash: true
     }
 });
 map.addControl(draw);
+
+map.on('draw.create', (d) => {
+  getLotsInPolygon(d.features[0].geometry);
+});
