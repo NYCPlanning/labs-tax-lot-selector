@@ -14,32 +14,19 @@ const layerConfig = { // eslint-disable-line
   plutoLabels: {
     id: 'pluto-labels',
     type: 'symbol',
+    minzoom: 15,
     source: 'pluto',
     'source-layer': 'layer0',
     paint: {
       'text-color': 'rgba(255, 255, 255, 1)',
     },
     layout: {
-      'text-field': '{lot}',
-      'text-font': {
-        stops: [
-          [
-            6,
-            [
-              'Open Sans Regular',
-              'Arial Unicode MS Regular',
-            ],
-          ],
-          [
-            10,
-            [
-              'Open Sans Regular',
-              'Arial Unicode MS Regular',
-            ],
-          ],
-        ],
-      },
-      'text-size': 14,
+      'text-field': '{block}-{lot}',
+      'text-font': [
+        'Open Sans Regular',
+        'Arial Unicode MS Regular',
+      ],
+      'text-size': 11,
     },
   },
 

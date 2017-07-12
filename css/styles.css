@@ -9,6 +9,7 @@ body { margin:0; padding:0; }
 }
 
 #sidebar {
+  padding-top: 15px;
   position: absolute;
   top: 50px;
   bottom: 0;
@@ -18,30 +19,6 @@ body { margin:0; padding:0; }
   z-index: 1;
 }
 
-.calculation-box {
-    height: 140px;
-    width: 150px;
-    position: absolute;
-    top: 210px;
-    left: 10px;
-    background-color: rgba(255, 255, 255, .9);
-    padding: 15px;
-    text-align: center;
-}
-
-#calculate {
-    min-height: 20px;
-    background-color: #3887be;
-    color: #fff;
-    font-family: 'Open Sans';
-    border-radius: 5px;
-    padding: 10px;
-    cursor: pointer;
-    margin: 10px 0;
-}
-
-p {
-    font-family: 'Open Sans';
-    margin: 0;
-    font-size: 13px;
+.well h3 {
+  margin-top: 0;
 }

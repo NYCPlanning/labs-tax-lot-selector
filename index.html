@@ -6,26 +6,64 @@
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.1.0/mapbox-gl-geocoder.css' type='text/css' />
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v0.19.0/mapbox-gl-draw.css' type='text/css'/>
+    <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500|Roboto:100,200,300,400,500" rel="stylesheet">
+    <link href="css/dcp.css" rel='stylesheet'>
     <link href="css/styles.css" rel='stylesheet'>
   </head>
   <body>
-    <div id='sidebar'>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div id='selected-notice'>
-              <h2><span id="selected-count">0</span> lots selected</h2>
-            </div>
-            <a href="#" id="csv-download-button" class="btn btn-lg btn-success disabled"><span class="glyphicon glyphicon-download-alt"></span> Download CSV</a>
-          </div>
-        </div>
+    <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="navbar-header">
+      <button aria-controls="navbar" aria-expanded="false" class="navbar-toggle collapsed" data-target="#navbar" data-toggle="collapse" type="button"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="/">⁣</a>
+      <div class="navbar-title">
+        Tax Lot Selector
       </div>
     </div>
-    <div id='map'></div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a href="#" data-toggle="modal" data-target="#dataModal">Data</a>
+        </li>
+        <li>
+          <a href="https://github.com/NYCPlanning/labs-migration-viz" target="_blank">Github</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+      <div class="container">
+        <div class="row">
+          <div id='sidebar'>
+            <div class="col-md-12">
+              <p>You can use this simple tool to quickly get a shapefile or CSV of tax lot data for a small part of the city.</p>
+              <p>Click individual lots to select or unselect, or use the drawing tools to select a custom polygon.</p>
+
+                <div class="well">
+                  <h3><span id="selected-count">0</span> lots selected</h3>
+                  <a href="#" id="clear-button" class="btn btn-xs btn-danger disabled"><span class="glyphicon glyphicon-remove"></span> Clear Selection</a>
+                </div>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  Download
+                </div>
+                <div class="panel-body">
+
+                  <a href="#" id="csv-download-button" class="btn btn-sm btn-success disabled"><span class="glyphicon glyphicon-download-alt"></span> CSV</a>
+                  <a href="#" id="shp-download-button" class="btn btn-sm btn-success disabled"><span class="glyphicon glyphicon-download-alt"></span> SHP</a>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id='map'></div>
+        </div>
+      </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.1.0/mapbox-gl-geocoder.min.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
     <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js'></script>
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v0.19.0/mapbox-gl-draw.js'></script>

@@ -8,25 +8,35 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiY3dob25nbnljIiwiYSI6ImNpczF1MXdrdjA4MXcycXA4Z
 const map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/mapbox/light-v9', //hosted style id
-    center: [-73.98, 40.750768], // starting position
-    zoom: 16 // starting zoom
+    center: [-73.98, 40.750768],
+    zoom: 16,
+    hash: true,
 });
 
 map.addControl(new mapboxgl.NavigationControl());
+map.addControl(new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    bbox: [-74.292297, 40.477248, -73.618011, 40.958123],
+}), 'top-left');
 
 const selectedLots = {
   type: 'FeatureCollection',
   features: [],
 };
 
-const setCount = (selectedLots) => {
+const updateUI = (selectedLots) => {
+
+  // update the underlying data for the selection layer
+  map.getSource('selectedLots').setData(selectedLots);
+
+  // update the count in the sidebar
   const count = selectedLots.features.length;
   $('#selected-count').text(count.toString());
 
   if (count > 0) {
-    $('#csv-download-button').removeClass('disabled');
+    $('a[id$="-button"]').removeClass('disabled');
   } else {
-    $('#csv-download-button').addClass('disabled');
+    $('a[id$="-button"]').addClass('disabled');
   }
 }
 
@@ -48,11 +58,7 @@ const updateSelectedLots = (features) => {
     }
   });
 
-  // update the underlying data for the selection layer
-  map.getSource('selectedLots').setData(selectedLots);
-
-  // update the count
-  setCount(selectedLots);
+  updateUI(selectedLots);
 };
 
 const getLotsInPolygon = (polygon) => {
@@ -70,11 +76,9 @@ const getLotsInPolygon = (polygon) => {
 
   Carto.sql(SQL, cartoOptions)
     .then((d) => { updateSelectedLots(d.features); });
-
-  console.log(SQL);
 }
 
-downloadCSV = () => {
+const download = (type) => {
   // get an array of bbls to use in a query
   const selectedLotsArray = selectedLots.features.map(lot => lot.properties.bbl);
   const selectedLotsString = selectedLotsArray.join(',');
@@ -86,14 +90,26 @@ downloadCSV = () => {
     WHERE bbl IN (${selectedLotsString})
   `;
 
-  const apiCall = `https://${cartoOptions.carto_domain}/user/${cartoOptions.carto_user}/api/v2/sql?q=${SQL}&format=csv&filename=selected_lots`;
+  const apiCall = `https://${cartoOptions.carto_domain}/user/${cartoOptions.carto_user}/api/v2/sql?q=${SQL}&format=${type}&filename=selected_lots`;
   console.log(apiCall)
 
   window.open(apiCall, 'Download');
+}
 
+const clearSelection = () => {
+  selectedLots.features = [];
+  updateUI(selectedLots);
 }
 
 map.on('load', function () {
+
+  // Create a popup, but don't add it to the map yet.
+  var popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false,
+    anchor: 'left',
+    offset: 10,
+  });
 
   const mapConfig = {
     version: '1.3.0',
@@ -102,7 +118,7 @@ map.on('load', function () {
       options: {
         cartocss_version: '2.1.1',
         cartocss: '#layer { polygon-fill: #FFF; }',
-        sql: 'SELECT cartodb_id, the_geom_webmercator, bbl, lot FROM support_mappluto',
+        sql: 'SELECT cartodb_id, the_geom_webmercator, bbl, block, lot, address FROM support_mappluto',
       },
     }],
   }
@@ -118,7 +134,7 @@ map.on('load', function () {
        data: selectedLots
      });
 
-    map.addLayer(layerConfig.pluto, 'waterway');
+    map.addLayer(layerConfig.pluto, 'admin-2-boundaries-dispute');
     map.addLayer(layerConfig.plutoLabels);
     map.addLayer(layerConfig.selectedLots);
 
@@ -131,10 +147,20 @@ map.on('load', function () {
     });
 
     map.on('mousemove', (e) => {
-
       const features = map.queryRenderedFeatures(e.point, { layers: ['pluto'] });
+
+      // show popup
+      if (features && features.length > 0) {
+        const d = features[0].properties
+        popup.setLngLat(e.lngLat)
+          .setHTML(d.address)
+          .addTo(map);
+      } else {
+        popup.remove();
+      }
+
       map.getCanvas().style.cursor = (features && features.length > 0) ? 'pointer' : '';
-    })
+    });
   });
 });
 
@@ -155,4 +181,6 @@ map.on('draw.create', (d) => {
   getLotsInPolygon(d.features[0].geometry);
 });
 
-$('#csv-download-button').on('click', downloadCSV)
+$('#csv-download-button').on('click', () => { download('csv'); });
+$('#shp-download-button').on('click', () => { download('shp'); });
+$('#clear-button').on('click', clearSelection);
