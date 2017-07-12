@@ -169,8 +169,9 @@ const draw = new MapboxDraw({
     controls: {
         rectangle: true,
         polygon: true,
-        trash: true
-    }
+        trash: false,
+    },
+    styles: layerConfig.drawStyles,
 });
 
 map.addControl(draw);
