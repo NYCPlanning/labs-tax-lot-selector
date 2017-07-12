@@ -22,3 +22,7 @@ body { margin:0; padding:0; }
 .well h3 {
   margin-top: 0;
 }
+
+.mapboxgl-popup-content {
+  padding: 2px 10px;
+}

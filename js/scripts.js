@@ -108,7 +108,7 @@ map.on('load', function () {
     closeButton: false,
     closeOnClick: false,
     anchor: 'left',
-    offset: 10,
+    offset: 15,
   });
 
   const mapConfig = {
