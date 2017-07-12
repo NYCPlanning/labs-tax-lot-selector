@@ -85,7 +85,7 @@ const download = (type) => {
   console.log(selectedLotsString);
 
   const SQL = `
-    SELECT borocode, block, lot, bbl, address
+    SELECT ${type === 'shp' ? 'the_geom,' : '' }borocode, block, lot, bbl, address
     FROM support_mappluto
     WHERE bbl IN (${selectedLotsString})
   `;
