@@ -1,6 +1,6 @@
 const cartoOptions = {
-  carto_domain: 'cartoprod.capitalplanning.nyc',
-  carto_user: 'cpp',
+  carto_domain: 'carto.planninglabs.nyc',
+  carto_user: 'data',
 };
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiY3dob25nbnljIiwiYSI6ImNpczF1MXdrdjA4MXcycXA4ZGtyN2x5YXIifQ.3HGyME8tBs6BnljzUVIt4Q';
