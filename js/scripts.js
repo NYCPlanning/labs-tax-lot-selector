@@ -1,5 +1,5 @@
 const cartoOptions = {
-  carto_domain: 'carto.planninglabs.nyc',
+  carto_domain: 'planninglabs.carto.com',
   carto_user: 'data',
 };
 
@@ -90,7 +90,7 @@ const download = (type) => {
     WHERE bbl IN (${selectedLotsString})
   `;
 
-  const apiCall = `https://${cartoOptions.carto_domain}/user/${cartoOptions.carto_user}/api/v2/sql?q=${SQL}&format=${type}&filename=selected_lots`;
+  const apiCall = `https://${cartoOptions.carto_domain}/api/v2/sql?q=${SQL}&format=${type}&filename=selected_lots`;
   console.log(apiCall)
 
   window.open(apiCall, 'Download');
