@@ -54,7 +54,21 @@
 
                   <a href="#" id="csv-download-button" class="btn btn-sm btn-success disabled"><span class="glyphicon glyphicon-download-alt"></span> CSV</a>
                   <a href="#" id="shp-download-button" class="btn btn-sm btn-success disabled"><span class="glyphicon glyphicon-download-alt"></span> SHP</a>
+                  <form>
+                    <p>Please select download mode:</p>
+                    <div>
+                      <input type="radio" id="contactChoice1"
+                       name="contact" value="email" checked onchange="window.downloadMode = 'paperless'">
+                      <label for="contactChoice1">Paperless Filing</label>
 
+                      <input type="radio" id="contactChoice2"
+                       name="contact" value="phone" onchange="window.downloadMode = 'all'">
+                      <label for="contactChoice2">All fields</label>
+<!--                       <input type="radio" id="contactChoice3"
+                       name="contact" value="mail">
+                      <label for="contactChoice3">Custom</label> -->
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
