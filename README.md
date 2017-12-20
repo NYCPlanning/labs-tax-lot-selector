@@ -48,6 +48,13 @@ This is a simple HTML/CSS/JS frontend mapping tool that interacts with NYC PLUTO
 
 This project can be deployed on any static web server. 
 
+## MapPLUTO Block Labels
+`mappluto_block_centroids` dataset was created to handle labels for the blocks.  Query for posterity/maintenance:
+```
+SELECT ST_Centroid(ST_Union(the_geom)) as the_geom, block FROM planninglabs.support_mappluto
+GROUP BY block
+```
+
 ## Contact us
 
 You can find us on Twitter at [@nycplanninglabs](https://twitter.com/nycplanninglabs), or comment on issues and we'll follow up as soon as we can. If you'd like to send an email, use [labs_dl@planning.nyc.gov](mailto:labs_dl@planning.nyc.gov)
