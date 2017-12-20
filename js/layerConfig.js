@@ -50,16 +50,17 @@ const layerConfig = { // eslint-disable-line
     source: 'pluto',
     'source-layer': 'block-centroids',
     minzoom: 14,
+    maxzoom: 24,
     layout: {
       'text-field': '{block}',
       'text-font': [
-        'Open Sans Regular',
+        'Open Sans Bold',
         'Arial Unicode MS Regular',
       ],
-      'text-size': 20,
+      'text-size': 22,
     },
     paint: {
-      'text-halo-color': 'hsl(0, 0%, 100%)',
+      'text-halo-color': 'rgba(255, 255, 255, 0.5)',
       'text-halo-width': 1,
       'text-color': 'rgba(121, 121, 121, 1)',
       'text-halo-blur': 0,
@@ -76,7 +77,6 @@ const layerConfig = { // eslint-disable-line
         ],
       },
     },
-    maxzoom: 24,
   },
 
   selectedLots: {
