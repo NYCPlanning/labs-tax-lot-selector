@@ -113,14 +113,27 @@ map.on('load', function () {
 
   const mapConfig = {
     version: '1.3.0',
-    layers: [{
-      type: 'mapnik',
-      options: {
-        cartocss_version: '2.1.1',
-        cartocss: '#layer { polygon-fill: #FFF; }',
-        sql: 'SELECT cartodb_id, the_geom_webmercator, bbl, block, lot, address FROM support_mappluto',
+    layers: [
+      {
+        id: 'pluto',
+        type: 'mapnik',
+        options: {
+          cartocss_version: '2.1.1',
+          cartocss: '#layer { polygon-fill: #FFF; }',
+          sql: 'SELECT cartodb_id, the_geom_webmercator, bbl, block, lot, address FROM support_mappluto',
+        },
       },
-    }],
+      {
+        id: 'block-centroids',
+        type: 'mapnik',
+        options: {
+          cartocss_version: '2.1.1',
+          cartocss: '#layer { polygon-fill: #FFF; }',
+          sql: 'SELECT * FROM mappluto_block_centroids',
+        },
+      }
+
+    ],
   }
 
   Carto.getVectorTileTemplate(mapConfig, cartoOptions).then((tileTemplate) => {
@@ -134,10 +147,13 @@ map.on('load', function () {
        data: selectedLots
      });
 
-    map.addLayer(layerConfig.pluto, 'admin-2-boundaries-dispute');
+    map.addLayer(layerConfig.pluto, 'building');
     map.addLayer(layerConfig.plutoLabels);
+    map.addLayer(layerConfig.blockLabels);
     map.addLayer(layerConfig.selectedLots);
 
+    // set building layer opacity
+    map.setPaintProperty('building', 'fill-opacity', 0.2)
 
     // on click
     map.on('click', (e) => {
@@ -153,7 +169,7 @@ map.on('load', function () {
       if (features && features.length > 0) {
         const d = features[0].properties
         popup.setLngLat(e.lngLat)
-          .setHTML(d.address)
+          .setHTML(`${d.address}<br/>Block: ${d.block} Lot: ${d.lot}`)
           .addTo(map);
       } else {
         popup.remove();
