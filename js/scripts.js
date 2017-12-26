@@ -83,7 +83,8 @@ const getLotsInPolygon = (polygon) => {
 const download = (type) => {
   // get an array of bbls to use in a query
   const selectedLotsArray = selectedLots.features.map(lot => lot.properties.bbl);
-  const selectedLotsString = selectedLotsArray.join(',');
+  if (selectedLotsArray.length > 0) {
+    const selectedLotsString = selectedLotsArray.join(',');
 
   const paperlistFields = ['borocode', 'block', 'lot', 'bbl', 'address', "'' AS \"Project\""];
   const allFields = ['borough','block','lot','cd','ct2010','cb2010','schooldist','council','zipcode','firecomp','policeprct','healtharea','sanitboro','sanitdistr','sanitsub','address','zonedist1','zonedist2','zonedist3','zonedist4','overlay1','overlay2','spdist1','spdist2','spdist3','ltdheight','splitzone','bldgclass','landuse','easements','ownertype','ownername','lotarea','bldgarea','comarea','resarea','officearea','retailarea','garagearea','strgearea','factryarea','otherarea','areasource','numbldgs','numfloors','unitsres','unitstotal','lotfront','lotdepth','bldgfront','bldgdepth','ext','proxcode','irrlotcode','lottype','bsmtcode','assessland','assesstot','exemptland','exempttot','yearbuilt','yearalter1','yearalter2','histdist','landmark','builtfar','residfar','commfar','facilfar','borocode','bbl','condono','tract2010','xcoord','ycoord','zonemap','zmcode','sanborn','taxmap','edesignum','appbbl','appdate','plutomapid','version','mappluto_f','shape_leng','shape_area'];
@@ -113,9 +114,10 @@ const download = (type) => {
     WHERE bbl IN (${selectedLotsString})
   `;
 
-  const apiCall = `https://${cartoOptions.carto_domain}/api/v2/sql?q=${SQL}&format=${type}&filename=selected_lots`;
+    const apiCall = `https://${cartoOptions.carto_domain}/api/v2/sql?q=${SQL}&format=${type}&filename=selected_lots`;
 
-  window.open(apiCall, 'Download');
+    window.open(apiCall, 'Download');
+  }
 }
 
 const clearSelection = () => {
