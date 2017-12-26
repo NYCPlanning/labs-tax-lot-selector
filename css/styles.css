@@ -12,9 +12,17 @@ html, body { margin:0; padding:0; height: 100%; box-sizing: border-box; }
   z-index: 1;
 }
 
+/* draw button */
 .button.text-orange, .link {
   color: #ae561f;
 }
+
+.selection-tool-draw.active, .selection-tool-draw.active:focus, .selection-tool--draw.button:focus {
+  color: #fefefe;
+  background-color: #ae561f;
+}
+
+/* end draw button */
 
 .well h3 {
   margin-top: 0;

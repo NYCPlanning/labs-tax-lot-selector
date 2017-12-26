@@ -82,7 +82,6 @@ const download = (type) => {
   // get an array of bbls to use in a query
   const selectedLotsArray = selectedLots.features.map(lot => lot.properties.bbl);
   const selectedLotsString = selectedLotsArray.join(',');
-  console.log(selectedLotsString);
 
   const SQL = `
     SELECT ${type === 'shp' ? 'the_geom,' : '' }borocode, block, lot, bbl, address
@@ -91,7 +90,6 @@ const download = (type) => {
   `;
 
   const apiCall = `https://${cartoOptions.carto_domain}/api/v2/sql?q=${SQL}&format=${type}&filename=selected_lots`;
-  console.log(apiCall)
 
   window.open(apiCall, 'Download');
 }
@@ -157,9 +155,11 @@ map.on('load', function () {
 
     // on click
     map.on('click', (e) => {
-      const features = map.queryRenderedFeatures(e.point, { layers: ['pluto'] });
-      const uniqueFeatures = _.uniq(features, feature => feature.properties.bbl);
-      if(uniqueFeatures.length > 0) updateSelectedLots(uniqueFeatures);
+      if (draw.getMode() !== 'draw_polygon') {
+        const features = map.queryRenderedFeatures(e.point, { layers: ['pluto'] });
+        const uniqueFeatures = _.uniq(features, feature => feature.properties.bbl);
+        if(uniqueFeatures.length > 0) updateSelectedLots(uniqueFeatures);
+      }
     });
 
     map.on('mousemove', (e) => {
@@ -183,8 +183,8 @@ map.on('load', function () {
 const draw = new MapboxDraw({
     displayControlsDefault: false,
     controls: {
-        rectangle: true,
-        polygon: true,
+        rectangle: false,
+        polygon: false,
         trash: false,
     },
     styles: layerConfig.drawStyles,
@@ -193,9 +193,26 @@ const draw = new MapboxDraw({
 map.addControl(draw);
 
 map.on('draw.create', (d) => {
+  $('.selection-tool-draw').removeClass('active');
   // remove the polygon, then pass its geometry on
   draw.deleteAll();
   getLotsInPolygon(d.features[0].geometry);
+});
+
+map.on('draw.modechange', () => {
+  if (draw.getMode() === 'simple_select')  $('.selection-tool-draw').removeClass('active');
+
+});
+
+$('.selection-tool-draw').on('click', () => {
+  const button = $('.selection-tool-draw')
+  button.toggleClass('active');
+  if (button.hasClass('active')) {
+    draw.changeMode('draw_polygon');
+  } else {
+    draw.deleteAll();
+    draw.changeMode('simple_select')
+  }
 });
 
 $('#csv-download-button').on('click', () => { download('csv'); });
