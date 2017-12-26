@@ -12,6 +12,10 @@ html, body { margin:0; padding:0; height: 100%; box-sizing: border-box; }
   z-index: 1;
 }
 
+.button.text-orange, .link {
+  color: #ae561f;
+}
+
 .well h3 {
   margin-top: 0;
 }
@@ -30,4 +34,3 @@ html, body { margin:0; padding:0; height: 100%; box-sizing: border-box; }
   background: #f1f1f1;
   padding: 3rem 0;
 }
-
