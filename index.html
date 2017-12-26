@@ -38,7 +38,7 @@
       </header>
     </div>
     <div class="main-grid grid-x">
-      <div id='sidebar' class='small-3 cell'>
+      <div id='sidebar' class='large-4 cell'>
         <p>You can use this simple tool to quickly get a shapefile or CSV of tax lot data for a small part of the city.</p>
 
         <p>Click individual lots to select or unselect, or use the drawing tools to select a custom polygon.</p>
@@ -53,6 +53,29 @@
           <h3>
             Download
           </h3>
+          <form>
+            <p>Please select download mode:</p>
+            <div>
+              <ul class="no-bullet">
+                <li>
+                  <input type="radio" id="contactChoice1"
+                   name="contact" value="email" checked onchange="window.downloadMode = 'paperless'">
+                  <label for="contactChoice1">Paperless Filing</label>
+                </li>
+                <li>
+                  <input type="radio" id="contactChoice3"
+                   name="contact" value="email" checked onchange="window.downloadMode = 'bbls'">
+                  <label for="contactChoice3">BBLs Only</label>
+                </li>
+
+                <li>
+                  <input type="radio" id="contactChoice2"
+                   name="contact" value="phone" onchange="window.downloadMode = 'all'">
+                  <label for="contactChoice2">All PLUTO Fields</label>
+                </li>
+              </ul> 
+            </div>
+          </form>
           <div class="button-group">
             <a href="#" id="csv-download-button" class="success button disabled"><span class="fa fa-download"></span> CSV</a>
             <a href="#" id="shp-download-button" class="success button disabled"><span class="fa fa-download"></span> SHP</a>
@@ -60,7 +83,7 @@
         </div>
       </div>
 
-      <div class='small-9 cell'>
+      <div class='large-8 cell'>
         <div id='map'></div>
       </div>
     </div>
