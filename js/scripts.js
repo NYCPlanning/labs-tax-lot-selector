@@ -81,17 +81,19 @@ const getLotsInPolygon = (polygon) => {
 const download = (type) => {
   // get an array of bbls to use in a query
   const selectedLotsArray = selectedLots.features.map(lot => lot.properties.bbl);
-  const selectedLotsString = selectedLotsArray.join(',');
+  if (selectedLotsArray.length > 0) {
+    const selectedLotsString = selectedLotsArray.join(',');
 
-  const SQL = `
-    SELECT ${type === 'shp' ? 'the_geom,' : '' }borocode, block, lot, bbl, address
-    FROM support_mappluto
-    WHERE bbl IN (${selectedLotsString})
-  `;
+    const SQL = `
+      SELECT ${type === 'shp' ? 'the_geom,' : '' }borocode, block, lot, bbl, address
+      FROM support_mappluto
+      WHERE bbl IN (${selectedLotsString})
+    `;
 
-  const apiCall = `https://${cartoOptions.carto_domain}/api/v2/sql?q=${SQL}&format=${type}&filename=selected_lots`;
+    const apiCall = `https://${cartoOptions.carto_domain}/api/v2/sql?q=${SQL}&format=${type}&filename=selected_lots`;
 
-  window.open(apiCall, 'Download');
+    window.open(apiCall, 'Download');
+  }
 }
 
 const clearSelection = () => {
