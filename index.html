@@ -42,8 +42,8 @@
     <div class="main-grid grid-x">
       <div id='sidebar' class='small-3 cell'>
         <p>You can use this simple tool to quickly get a shapefile or CSV of tax lot data for a small part of the city.</p>
-        <p>Click individual lots to select or unselect, or use the drawing tools to select a custom polygon.</p>
-
+        <p><i aria-hidden="true" class="fa fa-hand-pointer-o"></i> Click individual lots to select or unselect, or use the drawing tools to select a custom polygon.</p>
+          <button class="selection-tool--draw button small gray text-orange "><i aria-hidden="true" class="fa fa-pencil-square-o"></i> Draw</button>
           <div class="well">
             <h3><span id="selected-count">0</span> lots selected</h3>
             <a href="#" id="clear-button" class="btn btn-xs btn-danger disabled"><span class="glyphicon glyphicon-remove"></span> Clear Selection</a>
@@ -89,6 +89,7 @@
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.1.0/mapbox-gl-geocoder.min.js'></script>
     <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js'></script>
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v0.19.0/mapbox-gl-draw.js'></script>
+    <script src="https://use.fontawesome.com/46fa1fbe2f.js"></script>
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.23.0/polyfill.min.js"></script>
