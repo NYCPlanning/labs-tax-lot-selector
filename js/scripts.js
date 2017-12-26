@@ -201,3 +201,5 @@ map.on('draw.create', (d) => {
 $('#csv-download-button').on('click', () => { download('csv'); });
 $('#shp-download-button').on('click', () => { download('shp'); });
 $('#clear-button').on('click', clearSelection);
+
+$(document).foundation();

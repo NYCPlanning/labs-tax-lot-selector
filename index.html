@@ -27,7 +27,7 @@
             <nav role="navigation">
               <ul class="vertical large-horizontal menu">
                 <li>
-                  <a href="#" data-toggle="modal" data-target="#dataModal">Data</a>
+                  <a href="#" data-toggle="modal" data-open="exampleModal1">Data</a>
                 </li>
                 <li>
                   <a href="https://github.com/NYCPlanning/labs-bbl-list-generator" target="_blank">Github</a>
@@ -66,23 +66,20 @@
       </div>
     </div>
     <!-- Modal -->
-<!--     <div class="modal fade" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="dataModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Data</h4>
-          </div>
-          <div class="modal-body">
-            <h4>About the Data</h4>
-            <p>The geometries and attributes used in this tool come from MapPLUTO 16v2, an open data set available for download from the Department of City Planning's <a href="https://www1.nyc.gov/site/planning/data-maps/open-data.page">Bytes of the Big Apple</a>.</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
+    <div class="reveal" id="dataModal" data-reveal>
+      Modal
+<!--       <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Data</h4>
       </div>
-    </div> -->
+      <div class="modal-body">
+        <h4>About the Data</h4>
+        <p>The geometries and attributes used in this tool come from MapPLUTO 16v2, an open data set available for download from the Department of City Planning's <a href="https://www1.nyc.gov/site/planning/data-maps/open-data.page">Bytes of the Big Apple</a>.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="button" data-close data-dismiss="modal">Close</button>
+      </div> -->
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
@@ -91,9 +88,9 @@
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v0.19.0/mapbox-gl-draw.js'></script>
     <script src="https://use.fontawesome.com/46fa1fbe2f.js"></script>
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.23.0/polyfill.min.js"></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/js/foundation.min.js" crossorigin="anonymous"></script>
     <script src="js/layerConfig.js" type="text/babel"></script>
     <script src="js/carto.js" type="text/babel"></script>
     <script src="js/scripts.js" type="text/babel"></script>
