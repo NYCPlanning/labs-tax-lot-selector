@@ -6,11 +6,11 @@ html, body { margin:0; padding:0; height: 100%; box-sizing: border-box; }
   right: 0;
 }
 
-/*#sidebar {
+#sidebar {
   padding: 15px;
   box-shadow: 0 3px 10px rgba(0,0,0,.156863), 0 3px 10px rgba(0,0,0,.227451);
   z-index: 1;
-}*/
+}
 
 .well h3 {
   margin-top: 0;

@@ -16,7 +16,6 @@
   <body>
     <div class="site-header">
       <header role="banner">
-        <!-- <a href="https://planninglabs.nyc/" class="labs-beta-notice hide-for-print">A beta project of NYC Planning Labs</a> -->
         <div class="grid-x grid-padding-x">
           <div class="branding cell auto">
             <a class="dcp-link" href="http://www1.nyc.gov/site/planning/index.page"><img class="dcp-logo" src="https://raw.githubusercontent.com/NYCPlanning/logo/master/dcp_logo_772.png" alt="NYC Planning"></a>
@@ -44,19 +43,17 @@
         <p>You can use this simple tool to quickly get a shapefile or CSV of tax lot data for a small part of the city.</p>
         <p>Click individual lots to select or unselect, or use the drawing tools to select a custom polygon.</p>
 
-          <div class="well">
-            <h3><span id="selected-count">0</span> lots selected</h3>
-            <a href="#" id="clear-button" class="btn btn-xs btn-danger disabled"><span class="glyphicon glyphicon-remove"></span> Clear Selection</a>
-          </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">
+        <div class="callout">
+          <h3><span id="selected-count">0</span> lots selected</h3>
+          <a href="#" id="clear-button" class="warning button"><span class="glyphicon glyphicon-remove"></span> Clear Selection</a>
+        </div>
+        <div class="callout">
+          <h3>
             Download
-          </div>
-          <div class="panel-body">
-
-            <a href="#" id="csv-download-button" class="btn btn-sm btn-success disabled"><span class="glyphicon glyphicon-download-alt"></span> CSV</a>
-            <a href="#" id="shp-download-button" class="btn btn-sm btn-success disabled"><span class="glyphicon glyphicon-download-alt"></span> SHP</a>
-
+          </h3>
+          <div class="button-group">
+            <a href="#" id="csv-download-button" class="success button"><span class="glyphicon glyphicon-download-alt"></span> CSV</a>
+            <a href="#" id="shp-download-button" class="success button"><span class="glyphicon glyphicon-download-alt"></span> SHP</a>
           </div>
         </div>
       </div>
