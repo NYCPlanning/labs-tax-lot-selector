@@ -3,7 +3,7 @@ const layerConfig = { // eslint-disable-line
     id: 'pluto',
     type: 'fill',
     source: 'pluto',
-    'source-layer': 'layer0',
+    'source-layer': 'pluto',
     paint: {
       'fill-color': 'rgba(81, 111, 217, 1)',
       'fill-opacity': 0.7,
@@ -14,19 +14,68 @@ const layerConfig = { // eslint-disable-line
   plutoLabels: {
     id: 'pluto-labels',
     type: 'symbol',
-    minzoom: 16,
     source: 'pluto',
-    'source-layer': 'layer0',
-    paint: {
-      'text-color': 'rgba(255, 255, 255, 1)',
-    },
+    'source-layer': 'pluto',
+    minzoom: 15,
     layout: {
-      'text-field': '{block}-{lot}',
+      'text-field': '{lot}',
       'text-font': [
         'Open Sans Regular',
         'Arial Unicode MS Regular',
       ],
       'text-size': 11,
+    },
+    paint: {
+      'text-opacity': {
+        stops: [
+          [
+            15,
+            0,
+          ],
+          [
+            16,
+            1,
+          ],
+        ],
+      },
+      'icon-color': 'rgba(193, 193, 193, 1)',
+      'text-color': 'rgba(255, 255, 255, 1)',
+      'text-halo-color': 'rgba(152, 152, 152, 0)',
+    },
+  },
+
+  blockLabels: {
+    id: 'block-labels',
+    type: 'symbol',
+    source: 'pluto',
+    'source-layer': 'block-centroids',
+    minzoom: 14,
+    maxzoom: 24,
+    layout: {
+      'text-field': '{block}',
+      'text-font': [
+        'Open Sans Bold',
+        'Arial Unicode MS Regular',
+      ],
+      'text-size': 22,
+    },
+    paint: {
+      'text-halo-color': 'rgba(255, 255, 255, 0.5)',
+      'text-halo-width': 1,
+      'text-color': 'rgba(121, 121, 121, 1)',
+      'text-halo-blur': 0,
+      'text-opacity': {
+        stops: [
+          [
+            14,
+            0,
+          ],
+          [
+            15,
+            1,
+          ],
+        ],
+      },
     },
   },
 
