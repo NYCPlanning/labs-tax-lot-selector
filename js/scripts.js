@@ -83,12 +83,11 @@ const getLotsInPolygon = (polygon) => {
 const download = (type) => {
   // get an array of bbls to use in a query
   const selectedLotsArray = selectedLots.features.map(lot => lot.properties.bbl);
-  const selectedLotsString = selectedLotsArray.join(',');
-  console.log(selectedLotsString);
+  if (selectedLotsArray.length > 0) {
+    const selectedLotsString = selectedLotsArray.join(',');
 
   const paperlistFields = ['borocode', 'block', 'lot', 'bbl', 'address', "'' AS \"Project\""];
   const allFields = ['borough','block','lot','cd','ct2010','cb2010','schooldist','council','zipcode','firecomp','policeprct','healtharea','sanitboro','sanitdistr','sanitsub','address','zonedist1','zonedist2','zonedist3','zonedist4','overlay1','overlay2','spdist1','spdist2','spdist3','ltdheight','splitzone','bldgclass','landuse','easements','ownertype','ownername','lotarea','bldgarea','comarea','resarea','officearea','retailarea','garagearea','strgearea','factryarea','otherarea','areasource','numbldgs','numfloors','unitsres','unitstotal','lotfront','lotdepth','bldgfront','bldgdepth','ext','proxcode','irrlotcode','lottype','bsmtcode','assessland','assesstot','exemptland','exempttot','yearbuilt','yearalter1','yearalter2','histdist','landmark','builtfar','residfar','commfar','facilfar','borocode','bbl','condono','tract2010','xcoord','ycoord','zonemap','zmcode','sanborn','taxmap','edesignum','appbbl','appdate','plutomapid','version','mappluto_f','shape_leng','shape_area'];
-  const bblsOnly = ['bbl'];
 
   let additionalFields = '';
 
@@ -97,7 +96,7 @@ const download = (type) => {
   }
 
   if (window.downloadMode === 'bbls') {
-    additionalFields = bblsOnly.join(','); 
+    additionalFields = 'bbl';
   }
 
   if (window.downloadMode === 'all') {
@@ -114,10 +113,10 @@ const download = (type) => {
     WHERE bbl IN (${selectedLotsString})
   `;
 
-  const apiCall = `https://${cartoOptions.carto_domain}/api/v2/sql?q=${SQL}&format=${type}&filename=selected_lots`;
-  console.log(apiCall)
+    const apiCall = `https://${cartoOptions.carto_domain}/api/v2/sql?q=${SQL}&format=${type}&filename=selected_lots`;
 
-  window.open(apiCall, 'Download');
+    window.open(apiCall, 'Download');
+  }
 }
 
 const clearSelection = () => {
@@ -181,9 +180,11 @@ map.on('load', function () {
 
     // on click
     map.on('click', (e) => {
-      const features = map.queryRenderedFeatures(e.point, { layers: ['pluto'] });
-      const uniqueFeatures = _.uniq(features, feature => feature.properties.bbl);
-      if(uniqueFeatures.length > 0) updateSelectedLots(uniqueFeatures);
+      if (draw.getMode() !== 'draw_polygon') {
+        const features = map.queryRenderedFeatures(e.point, { layers: ['pluto'] });
+        const uniqueFeatures = _.uniq(features, feature => feature.properties.bbl);
+        if(uniqueFeatures.length > 0) updateSelectedLots(uniqueFeatures);
+      }
     });
 
     map.on('mousemove', (e) => {
@@ -207,8 +208,8 @@ map.on('load', function () {
 const draw = new MapboxDraw({
     displayControlsDefault: false,
     controls: {
-        rectangle: true,
-        polygon: true,
+        rectangle: false,
+        polygon: false,
         trash: false,
     },
     styles: layerConfig.drawStyles,
@@ -217,11 +218,30 @@ const draw = new MapboxDraw({
 map.addControl(draw);
 
 map.on('draw.create', (d) => {
+  $('.selection-tool-draw').removeClass('active');
   // remove the polygon, then pass its geometry on
   draw.deleteAll();
   getLotsInPolygon(d.features[0].geometry);
 });
 
+map.on('draw.modechange', () => {
+  if (draw.getMode() === 'simple_select')  $('.selection-tool-draw').removeClass('active');
+
+});
+
+$('.selection-tool-draw').on('click', () => {
+  const button = $('.selection-tool-draw')
+  button.toggleClass('active');
+  if (button.hasClass('active')) {
+    draw.changeMode('draw_polygon');
+  } else {
+    draw.deleteAll();
+    draw.changeMode('simple_select')
+  }
+});
+
 $('#csv-download-button').on('click', () => { download('csv'); });
 $('#shp-download-button').on('click', () => { download('shp'); });
 $('#clear-button').on('click', clearSelection);
+
+$(document).foundation();
