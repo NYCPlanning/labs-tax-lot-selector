@@ -46,7 +46,9 @@ This is a simple HTML/CSS/JS frontend mapping tool that interacts with NYC PLUTO
 
 ## Deployment
 
-This project can be deployed on any static web server. 
+Deploy with dokku:
+Create git remote `dokku` if you haven't already `git remote add dokku dokku@{domain}:lotselector`.
+Push `master` `git push dokku master`
 
 ## MapPLUTO Block Labels
 `mappluto_block_centroids` dataset was created to handle labels for the blocks.  Query for posterity/maintenance:
