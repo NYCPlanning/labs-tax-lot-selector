@@ -7,80 +7,82 @@
 
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
     <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.1.0/mapbox-gl-geocoder.css' type='text/css' />
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/labs-foundation.css">
     <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v0.19.0/mapbox-gl-draw.css' type='text/css'/>
     <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500|Roboto:100,200,300,400,500" rel="stylesheet">
     <link href="css/dcp.css" rel='stylesheet'>
     <link href="css/styles.css" rel='stylesheet'>
   </head>
   <body>
-    <a href="https://planninglabs.nyc/" class="labs-beta-notice">A beta project of NYC Planning Labs</a>
-
-    <nav class="navbar navbar-default navbar-fixed-top">
-    <div class="navbar-header">
-      <button aria-controls="navbar" aria-expanded="false" class="navbar-toggle collapsed" data-target="#navbar" data-toggle="collapse" type="button"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="/">⁣</a>
-      <div class="navbar-title">
-        Tax Lot Selector
-      </div>
-    </div>
-    <div class="navbar-collapse collapse" id="navbar">
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-          <a href="#" data-toggle="modal" data-target="#dataModal">Data</a>
-        </li>
-        <li>
-          <a href="https://github.com/NYCPlanning/labs-bbl-list-generator" target="_blank">Github</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-
-      <div class="container">
-        <div class="row">
-          <div id='sidebar'>
-            <div class="col-md-12">
-              <p>You can use this simple tool to quickly get a shapefile or CSV of tax lot data for a small part of the city.</p>
-              <p>Click individual lots to select or unselect, or use the drawing tools to select a custom polygon.</p>
-
-                <div class="well">
-                  <h3><span id="selected-count">0</span> lots selected</h3>
-                  <a href="#" id="clear-button" class="btn btn-xs btn-danger disabled"><span class="glyphicon glyphicon-remove"></span> Clear Selection</a>
-                </div>
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  Download
-                </div>
-                <div class="panel-body">
-
-                  <a href="#" id="csv-download-button" class="btn btn-sm btn-success disabled"><span class="glyphicon glyphicon-download-alt"></span> CSV</a>
-                  <a href="#" id="shp-download-button" class="btn btn-sm btn-success disabled"><span class="glyphicon glyphicon-download-alt"></span> SHP</a>
-
-                </div>
-              </div>
-            </div>
+    <div class="site-header">
+      <header role="banner">
+        <!-- <a href="https://planninglabs.nyc/" class="labs-beta-notice hide-for-print">A beta project of NYC Planning Labs</a> -->
+        <div class="grid-x grid-padding-x">
+          <div class="branding cell auto">
+            <a class="dcp-link" href="http://www1.nyc.gov/site/planning/index.page"><img class="dcp-logo" src="https://raw.githubusercontent.com/NYCPlanning/logo/master/dcp_logo_772.png" alt="NYC Planning"></a>
+            <a href="." class="site-name">
+              Tax Lot Selector
+            </a>
           </div>
-
-          <div id='map'></div>
+          <div class="cell shrink show-for-large">
+            <nav role="navigation">
+              <ul class="vertical large-horizontal menu">
+                <li>
+                  <a href="#" data-toggle="modal" data-target="#dataModal">Data</a>
+                </li>
+                <li>
+                  <a href="https://github.com/NYCPlanning/labs-bbl-list-generator" target="_blank">Github</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
         </div>
-      </div>
-      <!-- Modal -->
-      <div class="modal fade" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="dataModalLabel">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="myModalLabel">Data</h4>
-            </div>
-            <div class="modal-body">
-              <h4>About the Data</h4>
-              <p>The geometries and attributes used in this tool come from MapPLUTO 16v2, an open data set available for download from the Department of City Planning's <a href="https://www1.nyc.gov/site/planning/data-maps/open-data.page">Bytes of the Big Apple</a>.</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+      </header>
+    </div>
+    <div class="main-grid grid-x">
+      <div id='sidebar' class='small-3 cell'>
+        <p>You can use this simple tool to quickly get a shapefile or CSV of tax lot data for a small part of the city.</p>
+        <p>Click individual lots to select or unselect, or use the drawing tools to select a custom polygon.</p>
+
+          <div class="well">
+            <h3><span id="selected-count">0</span> lots selected</h3>
+            <a href="#" id="clear-button" class="btn btn-xs btn-danger disabled"><span class="glyphicon glyphicon-remove"></span> Clear Selection</a>
+          </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Download
+          </div>
+          <div class="panel-body">
+
+            <a href="#" id="csv-download-button" class="btn btn-sm btn-success disabled"><span class="glyphicon glyphicon-download-alt"></span> CSV</a>
+            <a href="#" id="shp-download-button" class="btn btn-sm btn-success disabled"><span class="glyphicon glyphicon-download-alt"></span> SHP</a>
+
           </div>
         </div>
       </div>
+
+      <div class='small-9 cell'>
+        <div id='map'></div>
+      </div>
+    </div>
+    <!-- Modal -->
+<!--     <div class="modal fade" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="dataModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Data</h4>
+          </div>
+          <div class="modal-body">
+            <h4>About the Data</h4>
+            <p>The geometries and attributes used in this tool come from MapPLUTO 16v2, an open data set available for download from the Department of City Planning's <a href="https://www1.nyc.gov/site/planning/data-maps/open-data.page">Bytes of the Big Apple</a>.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div> -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
