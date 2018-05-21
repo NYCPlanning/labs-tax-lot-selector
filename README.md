@@ -57,6 +57,7 @@ SELECT ST_Centroid(ST_Union(the_geom)) as the_geom, block, borocode FROM plannin
 WHERE borocode = '1'
 GROUP BY block, borocode
 ```
+The above technique ran into issues with invalid geometries in Queens.  We have requested that this block centroids dataset be a routine product of the MapPLUTO workflow, but until then, you may need to use `ST_MakeValid()` when using the above SQL to manually build the centroids table.
 
 ## Contact us
 
