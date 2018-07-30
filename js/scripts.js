@@ -9,7 +9,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiY3dob25nbnljIiwiYSI6ImNpczF1MXdrdjA4MXcycXA4Z
 /* eslint-disable */
 const map = new mapboxgl.Map({
     container: 'map', // container id
-    style: 'mapbox://styles/mapbox/light-v9', //hosted style id
+    style: '//raw.githubusercontent.com/NYCPlanning/labs-gl-style/master/data/style.json', //hosted style id
     center: [-73.98, 40.750768],
     zoom: 16,
     hash: true,
