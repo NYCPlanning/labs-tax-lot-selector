@@ -5,6 +5,7 @@ const cartoOptions = {
   carto_user: 'data',
 };
 
+
 /* eslint-disable */
 const map = new mapboxgl.Map({
     container: 'map', // container id
@@ -15,10 +16,6 @@ const map = new mapboxgl.Map({
 });
 
 map.addControl(new mapboxgl.NavigationControl());
-map.addControl(new MapboxGeocoder({
-    accessToken: mapboxgl.accessToken,
-    bbox: [-74.292297, 40.477248, -73.618011, 40.958123],
-}), 'top-left');
 
 const selectedLots = {
   type: 'FeatureCollection',
@@ -107,8 +104,8 @@ const download = (type) => {
   `;
 
   const SQL = `
-    SELECT ${fields} 
-    FROM support_mappluto
+    SELECT ${fields}
+    FROM mappluto_v18_1
     WHERE bbl IN (${selectedLotsString})
   `;
 
