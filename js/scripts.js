@@ -62,7 +62,7 @@ const updateSelectedLots = (features) => {
 const getLotsInPolygon = (polygon) => {
   const SQL = `
     SELECT *
-    FROM support_mappluto
+    FROM mappluto
     WHERE ST_Intersects(
 			ST_SetSRID(
         ST_geomFromGeojson('${JSON.stringify(polygon)}'),
@@ -105,7 +105,7 @@ const download = (type) => {
 
   const SQL = `
     SELECT ${fields}
-    FROM mappluto_v18_1
+    FROM mappluto
     WHERE bbl IN (${selectedLotsString})
   `;
 
@@ -139,7 +139,7 @@ map.on('load', function () {
         options: {
           cartocss_version: '2.1.1',
           cartocss: '#layer { polygon-fill: #FFF; }',
-          sql: 'SELECT cartodb_id, the_geom_webmercator, bbl, block, lot, address FROM support_mappluto',
+          sql: 'SELECT cartodb_id, the_geom_webmercator, bbl, block, lot, address FROM mappluto',
         },
       },
       {

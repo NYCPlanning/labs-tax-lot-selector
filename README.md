@@ -53,7 +53,7 @@ Push `master` `git push dokku master`
 ## MapPLUTO Block Labels
 `mappluto_block_centroids` dataset was created to handle labels for the blocks.  This is a bit involved as it's a complex query and carto may timeout, so we had to run the code below by borough, save each result as a new dataset, and `UNION ALL` them together into a new block_centroids dataset.  Query for posterity/maintenance:
 ```
-SELECT ST_Centroid(ST_Union(the_geom)) as the_geom, block, borocode FROM planninglabs.mappluto_v1711
+SELECT ST_Centroid(ST_Union(the_geom)) as the_geom, block, borocode FROM planninglabs.mappluto
 WHERE borocode = '1'
 GROUP BY block, borocode
 ```
