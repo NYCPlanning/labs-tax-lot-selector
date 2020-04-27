@@ -148,7 +148,7 @@ map.on('load', function () {
         options: {
           cartocss_version: '2.1.1',
           cartocss: '#layer { polygon-fill: #FFF; }',
-          sql: 'SELECT * FROM mappluto_block_centroids',
+          sql: 'SELECT * FROM dtm_block_centroids',
         },
       }
 
