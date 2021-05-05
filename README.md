@@ -31,6 +31,7 @@ You will need the following things properly installed on your computer.
 
 - [Git](https://git-scm.com/)
 - [Node.js](https://nodejs.org/) (with NPM)
+ - This installation was tested using Node v14.15.0
 
 ## Local development
 
