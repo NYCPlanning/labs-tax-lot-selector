@@ -62,4 +62,4 @@ The above technique ran into issues with invalid geometries in Queens.  We have 
 
 ## Contact us
 
-You can find us on Twitter at [@nycplanninglabs](https://twitter.com/nycplanninglabs), or comment on issues and we'll follow up as soon as we can. If you'd like to send an email, use [labs_dl@planning.nyc.gov](mailto:labs_dl@planning.nyc.gov)
+You can find us on Twitter at [@nycplanningtech](https://twitter.com/nycplanningtech), or comment on issues and we'll follow up as soon as we can. If you'd like to send an email, use [opensource_dl@planning.nyc.gov](mailto:opensource_dl@planning.nyc.gov)
