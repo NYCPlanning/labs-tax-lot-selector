@@ -30,7 +30,7 @@ In the spirit of free software, everyone is encouraged to help improve this proj
 You will need the following things properly installed on your computer.
 
 - [Git](https://git-scm.com/)
-- [Node.js](https://nodejs.org/) (with NPM)
+- [Node.js](https://nodejs.org/) (with NPM) **version listed in nvmrc**
 
 ## Local development
 
@@ -61,4 +61,4 @@ The above technique ran into issues with invalid geometries in Queens.  We have 
 
 ## Contact us
 
-You can find us on Twitter at [@nycplanninglabs](https://twitter.com/nycplanninglabs), or comment on issues and we'll follow up as soon as we can. If you'd like to send an email, use [labs_dl@planning.nyc.gov](mailto:labs_dl@planning.nyc.gov)
+You can find us on Twitter at [@nycplanningtech](https://twitter.com/nycplanningtech), or comment on issues and we'll follow up as soon as we can. If you'd like to send an email, use [opensource_dl@planning.nyc.gov](mailto:opensource_dl@planning.nyc.gov)
